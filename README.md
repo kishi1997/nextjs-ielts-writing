@@ -42,3 +42,10 @@ git add .
 git commit -m "feat: -- your message"
 git push -u origin main
 ```
+
+## Change commit message that already pushed
+
+```bash
+git commit --amend -m "new message"
+git push -f origin HEAD
+```
