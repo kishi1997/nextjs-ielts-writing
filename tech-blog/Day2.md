@@ -1,8 +1,6 @@
-# IELTS Writing AI添削アプリ 開発ログ - Vol.2
+# IELTS Writing AI添削アプリ 開発ログ - Vol.2 Next.js App Router × AI SDK 実装メモ
 
-## 1. Next.js App Router × AI SDK 実装メモ
-
-1. フロントエンド ('use client')
+## 1. フロントエンド ('use client')
 
 - fetch でデータを送る時の定型パターン。
 
