@@ -4,31 +4,31 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
+import { submitIeltsAnswer } from './lib/api/api';
 
 export default function Home() {
   const [answer, setAnswer] = useState('');
   const [aiResponse, setAiResponse] = useState('');
 
-  const sendAnswer = async (text: string) => {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text,
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
-    setAiResponse(data.output);
+  // 画像のパス（今は固定だが、将来変えられるように定数化）
+  const imagePath = '/test.png';
+
+  const sendAnswer = async (answer: string) => {
+    try {
+      setAiResponse('Loading...');
+      const data = await submitIeltsAnswer(answer, imagePath);
+      setAiResponse(data);
+    } catch (error) {
+      setAiResponse('Error occurred while fetching AI response.');
+      console.error('Error submitting answer:', error);
+    }
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-black font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl items-center justify-between px-16 py-32 sm:items-start dark:bg-black">
         <div className="flex w-[60%] flex-col gap-4">
           <div>
-            <img src="./test.png" alt="test=image" width={300} height={600} />
+            <img src={imagePath} alt="test=image" width={300} height={600} />
           </div>
           <p>
             Describe the scene shown in the image below. You should write at
