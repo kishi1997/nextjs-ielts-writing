@@ -4,18 +4,24 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request): Promise<NextResponse> {
   const body = await req.json();
+  console.log('Received body:', body);
   const systemPrompt = `
     あなたはIELTSの試験官です。
-    以下の問題に対するユーザーの回答を200字以内で添削してください。
-
-    【問題文】
-      Describe the scene shown in the image below. You should write at least 150 words. Include details about the people, the place, and what is happening.
-  【ユーザーの回答】
-  ${body.text}
+    ユーザーから送られた画像（Task 1の問題）と、その回答を採点・添削してください。
+    100字以内で、スコア目安（0-9）と改善点を具体的に教えてください。
   `;
-  const { text } = await generateText({
+  const result = await generateText({
     model: google('gemini-2.5-flash-lite'),
-    prompt: systemPrompt,
+    system: systemPrompt,
+    messages: [
+      {
+        role: 'user',
+        content: [
+          { type: 'text', text: body.text },
+          { type: 'image', image: body.image },
+        ],
+      },
+    ],
   });
-  return NextResponse.json({ output: text });
+  return NextResponse.json({ output: result.text });
 }
