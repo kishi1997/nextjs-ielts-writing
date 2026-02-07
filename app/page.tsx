@@ -3,38 +3,49 @@
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
-import { useState } from 'react';
-import { submitIeltsAnswer } from './lib/api/api';
+import { useMemo, useState } from 'react';
+import { submitIeltsAnswer, submitIeltsAnswerTest } from './lib/api/api';
+import { IMAGE_PATH, MIN_WORD_COUNT } from './lib/constants';
+import { getWordCount } from './lib/utils/word-count-utils';
 
 export default function Home() {
   const [answer, setAnswer] = useState('');
+  const [loading, setLoading] = useState(false);
   const [aiResponse, setAiResponse] = useState('');
 
-  // 画像のパス（今は固定だが、将来変えられるように定数化）
-  const imagePath = '/test.png';
+  const wordCount = useMemo(() => {
+    return getWordCount(answer);
+  }, [answer]);
+
+  // 送信可能かどうか
+  const canSubmit = wordCount >= MIN_WORD_COUNT;
 
   const sendAnswer = async (answer: string) => {
+    if (!canSubmit) return;
     try {
-      setAiResponse('Loading...');
-      const data = await submitIeltsAnswer(answer, imagePath);
-      setAiResponse(data);
+      setLoading(true);
+      setAiResponse('Thinking...');
+      const res = await submitIeltsAnswerTest(answer, IMAGE_PATH);
+      setAiResponse(res);
     } catch (error) {
       setAiResponse('Error occurred while fetching AI response.');
       console.error('Error submitting answer:', error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-black font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl items-center justify-between px-16 py-32 sm:items-start dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-3xl items-center justify-between gap-8 py-32 sm:items-start dark:bg-black">
         <div className="flex w-[60%] flex-col gap-4">
-          <div>
-            <img src={imagePath} alt="test=image" width={300} height={600} />
-          </div>
-          <p>
+          <p className="text-white">
             Describe the scene shown in the image below. You should write at
             least 150 words. Include details about the people, the place, and
             what is happening.
           </p>
+          <div>
+            <img src={IMAGE_PATH} alt="test=image" width={300} height={600} />
+          </div>
         </div>
         <div className="w-[40%]">
           <Field>
@@ -51,18 +62,20 @@ export default function Home() {
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
             />
+            <div className="text-xs text-white/40">
+              現在の単語数：{wordCount}/{MIN_WORD_COUNT}
+            </div>
           </Field>
           <Button
             variant="outline"
             type="submit"
-            className="mt-2 hover:cursor-pointer"
+            className="mt-4 hover:cursor-pointer disabled:cursor-not-allowed"
+            disabled={!canSubmit}
             onClick={() => sendAnswer(answer)}
           >
-            Send
+            {loading ? 'Sending' : 'Send'}
           </Button>
-          <div className="mt-4 text-white">
-            {aiResponse ? aiResponse : 'AIのreviewが表示されます'}
-          </div>
+          <div className="mt-4 text-white">{aiResponse ? aiResponse : ''}</div>
         </div>
       </main>
     </div>

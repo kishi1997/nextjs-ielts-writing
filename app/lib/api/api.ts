@@ -37,3 +37,28 @@ export const submitIeltsAnswer = async (answer: string, imagePath: string) => {
   const data = await res.json();
   return data.output;
 };
+// テスト用のAPI、毎回Geminiを呼ぶと費用が嵩むため
+export const submitIeltsAnswerTest = async (
+  answer: string,
+  imagePath: string,
+) => {
+  if (answer == null || imagePath == null) {
+    throw new Error('Answer or ImagePath is null or undefined');
+  }
+  const base64Image = await urlToBase64(imagePath);
+  const res = await fetch('/api/test', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text: answer,
+      image: base64Image,
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`API request failed with status ${res.status}`);
+  }
+  const data = await res.json();
+  return data.answer;
+};
