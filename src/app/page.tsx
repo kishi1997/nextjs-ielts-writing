@@ -35,49 +35,47 @@ export default function Home() {
     }
   };
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl items-center justify-between gap-8 py-32 sm:items-start dark:bg-black">
-        <div className="flex w-[60%] flex-col gap-4">
-          <p className="text-white">
-            Describe the scene shown in the image below. You should write at
-            least 150 words. Include details about the people, the place, and
-            what is happening.
-          </p>
-          <div>
-            <img src={IMAGE_PATH} alt="test=image" width={300} height={600} />
+    <div className="flex items-center justify-center">
+      <div className="flex w-[60%] flex-col gap-4">
+        <p className="text-white">
+          Describe the scene shown in the image below. You should write at least
+          150 words. Include details about the people, the place, and what is
+          happening.
+        </p>
+        <div>
+          <img src={IMAGE_PATH} alt="test=image" width={300} height={600} />
+        </div>
+      </div>
+      <div className="w-[40%]">
+        <Field>
+          <FieldLabel htmlFor="textarea-message" className="text-white">
+            Answer
+          </FieldLabel>
+          <FieldDescription>Enter your answer below.</FieldDescription>
+          <Textarea
+            id="textarea-message"
+            placeholder="Type your answer here."
+            name="message"
+            rows={4}
+            className="w-full border border-zinc-300 p-2 text-white dark:border-zinc-700"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+          />
+          <div className="text-xs text-white/40">
+            現在の単語数：{wordCount}/{MIN_WORD_COUNT}
           </div>
-        </div>
-        <div className="w-[40%]">
-          <Field>
-            <FieldLabel htmlFor="textarea-message" className="text-white">
-              Answer
-            </FieldLabel>
-            <FieldDescription>Enter your answer below.</FieldDescription>
-            <Textarea
-              id="textarea-message"
-              placeholder="Type your answer here."
-              name="message"
-              rows={4}
-              className="w-full border border-zinc-300 p-2 text-white dark:border-zinc-700"
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-            />
-            <div className="text-xs text-white/40">
-              現在の単語数：{wordCount}/{MIN_WORD_COUNT}
-            </div>
-          </Field>
-          <Button
-            variant="outline"
-            type="submit"
-            className="mt-4 hover:cursor-pointer disabled:cursor-not-allowed"
-            disabled={!canSubmit}
-            onClick={() => sendAnswer(answer)}
-          >
-            {loading ? 'Sending' : 'Send'}
-          </Button>
-          <div className="mt-4 text-white">{aiResponse ? aiResponse : ''}</div>
-        </div>
-      </main>
+        </Field>
+        <Button
+          variant="outline"
+          type="submit"
+          className="mt-4 hover:cursor-pointer disabled:cursor-not-allowed"
+          disabled={!canSubmit}
+          onClick={() => sendAnswer(answer)}
+        >
+          {loading ? 'Sending' : 'Send'}
+        </Button>
+        <div className="mt-4 text-white">{aiResponse ? aiResponse : ''}</div>
+      </div>
     </div>
   );
 }

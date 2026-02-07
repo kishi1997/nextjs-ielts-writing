@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { AppSidebar } from '@/components/app-sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,7 +29,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SidebarProvider>
+          {/* 1. SidebarProviderの中に直接配置し、画面全体をflexにする */}
+          <div className="flex min-h-screen w-full bg-black text-white dark:bg-black">
+            <AppSidebar />
+
+            {/* 2. メインコンテンツ側。サイドバーを除いた残りの幅を占有させる */}
+            <div className="flex flex-1 flex-col">
+              <header className="p-4">
+                <SidebarTrigger />
+              </header>
+
+              <main className="flex flex-1 flex-col items-center justify-center p-8">
+                <div className="w-full max-w-3xl">{children}</div>
+              </main>
+            </div>
+          </div>
+        </SidebarProvider>
       </body>
     </html>
   );
