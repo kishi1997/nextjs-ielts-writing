@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request): Promise<NextResponse> {
   const body = await req.json();
-  console.log('Received body:', body);
   const systemPrompt = `
     あなたはIELTSの試験官です。
     ユーザーから送られた画像（Task 1の問題）と、その回答を採点・添削してください。
