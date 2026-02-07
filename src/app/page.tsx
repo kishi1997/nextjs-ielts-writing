@@ -3,10 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
+import { submitIeltsAnswerTest } from '@/lib/api/api';
+import { MIN_WORD_COUNT, IMAGE_PATH } from '@/lib/constants';
+import { getWordCount } from '@/lib/word-count-utils';
 import { useMemo, useState } from 'react';
-import { submitIeltsAnswer, submitIeltsAnswerTest } from './lib/api/api';
-import { IMAGE_PATH, MIN_WORD_COUNT } from './lib/constants';
-import { getWordCount } from './lib/utils/word-count-utils';
 
 export default function Home() {
   const [answer, setAnswer] = useState('');
