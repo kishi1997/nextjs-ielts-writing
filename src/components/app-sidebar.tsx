@@ -21,8 +21,8 @@ export const data = {
       url: '#',
       items: [
         {
-          title: 'Writing Task 1',
-          url: '/practice/writing-task-1',
+          title: 'TASK LIST',
+          url: '/',
           isActive: true, // 現在開発中のページをアクティブに
         },
         {
