@@ -27,3 +27,9 @@ npx prisma init
 ### Supabase上の本物のデータベースにスキーマを適用するコマンド
 
 npx prisma migrate dev --name init
+
+### md形式に変換
+
+```bash
+markitdown tech-blog/document.html > tech-blog/Day[].md
+```
