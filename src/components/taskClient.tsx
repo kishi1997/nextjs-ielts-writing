@@ -7,6 +7,7 @@ import { Task } from '@/types/type';
 import { submitIeltsAnswerTest } from '@/lib/api/api';
 import { getWordCount } from '@/lib/word-count-utils';
 import { useMemo, useState } from 'react';
+import { createEssay } from '@/lib/database/essay';
 
 interface PageProps {
   task: Task;
@@ -23,9 +24,10 @@ export const TaskClient = ({ task }: PageProps) => {
   // 送信可能かどうか
   const canSubmit = wordCount >= MIN_WORD_COUNT;
 
-  const sendAnswer = async (answer: string) => {
+  const sendAnswer = async (answer: string, taskId: string) => {
     if (!canSubmit) return;
     try {
+      await createEssay(answer, taskId);
       setLoading(true);
       setAiResponse('Thinking...');
       const res = await submitIeltsAnswerTest(answer, IMAGE_PATH);
@@ -75,7 +77,7 @@ export const TaskClient = ({ task }: PageProps) => {
           type="submit"
           className="mt-4 hover:cursor-pointer disabled:cursor-not-allowed"
           disabled={!canSubmit}
-          onClick={() => sendAnswer(answer)}
+          onClick={() => sendAnswer(answer, task.id)}
         >
           {loading ? 'Sending' : 'Send'}
         </Button>
