@@ -1,12 +1,17 @@
 'use server';
 import { prisma } from '@/lib/prisma';
 
-export const createEssay = async (answer: string, taskId: string) => {
+export const createEssay = async (
+  answer: string,
+  taskId: string,
+  userId?: string,
+) => {
   try {
     await prisma.essay.create({
       data: {
         taskId: taskId,
         content: answer,
+        userId: userId,
       },
     });
   } catch (error) {

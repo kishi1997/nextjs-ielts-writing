@@ -1,3 +1,5 @@
+import { requireUser } from '../auth/auth-guard';
+
 // 画像のパスからBase64文字列を作るヘルパー関数
 export const urlToBase64 = async (url: string): Promise<string> => {
   if (url == null) {
@@ -42,6 +44,7 @@ export const submitIeltsAnswerTest = async (
   answer: string,
   imagePath: string,
 ) => {
+  await requireUser();
   if (answer == null || imagePath == null) {
     throw new Error('Answer or ImagePath is null or undefined');
   }
