@@ -8,6 +8,7 @@ import { submitIeltsAnswerTest } from '@/lib/api/api';
 import { getWordCount } from '@/lib/word-count-utils';
 import { useMemo, useState } from 'react';
 import { createEssay } from '@/lib/database/essay';
+import { useUserState } from '@/store/useUserStore';
 
 interface PageProps {
   task: Task;
@@ -17,17 +18,18 @@ export const TaskClient = ({ task }: PageProps) => {
   const [loading, setLoading] = useState(false);
   const [aiResponse, setAiResponse] = useState('');
 
+  const user = useUserState((state) => state.user);
+
   const wordCount = useMemo(() => {
     return getWordCount(answer);
   }, [answer]);
-
   // 送信可能かどうか
   const canSubmit = wordCount >= MIN_WORD_COUNT;
 
   const sendAnswer = async (answer: string, taskId: string) => {
     if (!canSubmit) return;
     try {
-      await createEssay(answer, taskId);
+      await createEssay(answer, taskId, user?.id);
       setLoading(true);
       setAiResponse('Thinking...');
       const res = await submitIeltsAnswerTest(answer, IMAGE_PATH);
@@ -43,6 +45,7 @@ export const TaskClient = ({ task }: PageProps) => {
   return (
     <div className="flex items-center justify-center">
       <div className="flex w-[60%] flex-col gap-4">
+        <h1>こんにちは、{user?.name}さん</h1>
         <p className="text-white">{task.taskDescription}</p>
         <div>
           <img
