@@ -1,14 +1,14 @@
 'use client';
+
 import { useUserState } from '@/store/useUserStore';
-import { useRef } from 'react';
+import { useEffect } from 'react';
 
 type User = ReturnType<typeof useUserState.getState>['user'];
 
 export const UserInitializer = ({ user }: { user: User }) => {
-  const initialized = useRef(false);
-  if (!initialized.current) {
+  useEffect(() => {
     useUserState.setState({ user });
-    initialized.current = true;
-  }
+  }, [user]);
+
   return null;
 };
