@@ -5,7 +5,9 @@ export function SignIn({ provider }: { provider?: string }) {
     <form
       action={async () => {
         'use server';
-        await signIn(provider);
+        await signIn(provider, {
+          redirectTo: '/dashboard',
+        });
       }}
     >
       <button className="rounded-md bg-neutral-700 p-2 text-white">
@@ -20,7 +22,9 @@ export function SignOut() {
     <form
       action={async () => {
         'use server';
-        await signOut();
+        await signOut({
+          redirectTo: '/login',
+        });
       }}
       className="w-full"
     >

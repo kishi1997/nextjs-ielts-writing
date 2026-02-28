@@ -2,18 +2,15 @@ import { create } from 'zustand';
 
 type User = {
   id: string;
-  name: string;
-  email: string;
+  name: string | null;
 };
 
-interface UserState {
+type State = {
   user: User | null;
   setUser: (user: User | null) => void;
-  clearUser: () => void;
-}
+};
 
-export const useUserState = create<UserState>((set) => ({
+export const useUserState = create<State>((set) => ({
   user: null,
   setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
 }));
