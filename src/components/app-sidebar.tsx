@@ -22,7 +22,7 @@ export const data = {
       items: [
         {
           title: 'TASK LIST',
-          url: '/',
+          url: '/dashboard',
           isActive: true, // 現在開発中のページをアクティブに
         },
         {
