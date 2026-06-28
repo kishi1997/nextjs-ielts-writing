@@ -19,6 +19,7 @@ export default async function RootLayout({
         id: session.user?.id,
       },
     });
+    console.log(user);
   }
   return (
     <html lang="en">
@@ -29,8 +30,15 @@ export default async function RootLayout({
               <AppSidebar />
 
               <div className="flex flex-1 flex-col">
-                <header className="p-4">
+                <header className="flex items-center justify-between p-4">
                   <SidebarTrigger />
+                  <a href="/profile" className="w-8">
+                    {user ? (
+                      <img src={user.image!} alt="ユーザーアイコン" />
+                    ) : (
+                      <span>not user</span>
+                    )}
+                  </a>
                 </header>
 
                 <main className="flex flex-1 flex-col items-center justify-center p-8">
