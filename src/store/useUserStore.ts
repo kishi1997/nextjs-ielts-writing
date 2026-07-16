@@ -1,9 +1,5 @@
 import { create } from 'zustand';
-
-type User = {
-  id: string;
-  name: string | null;
-};
+import type { User } from '@prisma/client';
 
 type State = {
   user: User | null;

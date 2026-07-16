@@ -1,6 +1,7 @@
 import { signIn, signOut } from '@/lib/auth';
+import { LogIn } from 'lucide-react';
 
-export function SignIn({ provider }: { provider?: string }) {
+export function SignIn({ provider = 'google' }: { provider?: string }) {
   return (
     <form
       action={async () => {
@@ -10,8 +11,9 @@ export function SignIn({ provider }: { provider?: string }) {
         });
       }}
     >
-      <button className="rounded-md bg-neutral-700 p-2 text-white">
-        Sign In with {provider}
+      <button className="inline-flex h-12 items-center gap-2 rounded-lg bg-[#58cc02] px-5 font-black text-[#092100] shadow-[0_6px_0_#2c7100] transition hover:-translate-y-0.5 hover:bg-[#7be338]">
+        <LogIn className="h-5 w-5" />
+        Googleでログイン
       </button>
     </form>
   );
@@ -28,7 +30,7 @@ export function SignOut() {
       }}
       className="w-full"
     >
-      <button className="rounded-md bg-neutral-700 p-2 text-white">
+      <button className="rounded-lg border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-bold text-white/70 transition hover:bg-white/10 hover:text-white">
         Sign Out
       </button>
     </form>
