@@ -4,4 +4,6 @@ export type Task = {
   taskImagePath: string;
   minWordCount: number;
   taskDescription: string;
+  modelAnswer: string;
+  explanation: string;
 };
