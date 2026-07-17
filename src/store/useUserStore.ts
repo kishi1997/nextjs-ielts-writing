@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import type { User } from '@prisma/client';
+import type { AppUser } from '@/types/user';
 
 type State = {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: AppUser | null;
+  setUser: (user: AppUser | null) => void;
 };
 
 export const useUserState = create<State>((set) => ({

@@ -1,6 +1,7 @@
 'use server';
 import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { getDatabase } from '@/lib/db';
+import { GetTaskById } from '@/lib/task-utils';
 
 export const createEssay = async (answer: string, taskId: string) => {
   const session = await auth();
@@ -11,15 +12,21 @@ export const createEssay = async (answer: string, taskId: string) => {
     throw new Error('回答を保存するにはログインが必要です。');
   }
 
-  if (!content || !taskId) {
+  if (!content || !GetTaskById(taskId)) {
     throw new Error('回答と問題IDは必須です。');
   }
 
-  return prisma.essay.create({
-    data: {
+  return getDatabase()
+    .prepare(
+      `INSERT INTO essays (id, taskId, content, createdAt, userId)
+       VALUES (?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      crypto.randomUUID(),
       taskId,
       content,
+      new Date().toISOString(),
       userId,
-    },
-  });
+    )
+    .run();
 };

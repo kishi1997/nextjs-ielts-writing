@@ -1,8 +1,16 @@
 import { SignIn } from '@/components/auth-buttons';
+import { auth } from '@/lib/auth';
 import { BookOpenCheck, MoonStar, Sparkles, Star } from 'lucide-react';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-const page = () => {
+const page = async () => {
+  const session = await auth();
+
+  if (session?.user) {
+    redirect('/dashboard');
+  }
+
   return (
     <section
       data-login-page

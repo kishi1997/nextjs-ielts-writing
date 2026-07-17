@@ -2,8 +2,9 @@ import './globals.css';
 import { auth } from '@/lib/auth';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { prisma } from '@/lib/prisma';
+import { getDatabase } from '@/lib/db';
 import { UserProvider } from '@/components/userProvider';
+import type { AppUser } from '@/types/user';
 import { MoonStar } from 'lucide-react';
 import Image from 'next/image';
 
@@ -14,13 +15,16 @@ export default async function RootLayout({
 }) {
   // ⭐ Serverでuser取得
   const session = await auth();
-  let user = null;
-  if (session) {
-    user = await prisma.user.findUnique({
-      where: {
-        id: session.user?.id,
-      },
-    });
+  let user: AppUser | null = null;
+  if (session?.user?.id) {
+    user = await getDatabase()
+      .prepare(
+        `SELECT id, name, email, emailVerified, image
+         FROM users
+         WHERE id = ?`,
+      )
+      .bind(session.user.id)
+      .first<AppUser>();
   }
   return (
     <html lang="ja">

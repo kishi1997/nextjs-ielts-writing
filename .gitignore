@@ -15,6 +15,7 @@
 
 # next.js
 /.next/
+/.open-next/
 /out/
 
 # production
@@ -33,6 +34,8 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env
 .env.local
+.dev.vars
+.wrangler/
 
 # vercel
 .vercel
@@ -40,7 +43,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-/generated/prisma
 
 package-lock.json

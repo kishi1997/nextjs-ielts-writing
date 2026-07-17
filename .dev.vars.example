@@ -1,7 +1,4 @@
-# Auth.js
+NEXTJS_ENV=development
 AUTH_SECRET="generate-with-openssl-rand-base64-33"
 AUTH_GOOGLE_ID="google-oauth-client-id"
 AUTH_GOOGLE_SECRET="google-oauth-client-secret"
-
-# Optional because Auth.js normally infers the host from the request
-AUTH_URL="http://localhost:3000"
