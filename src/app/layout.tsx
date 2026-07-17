@@ -21,7 +21,6 @@ export default async function RootLayout({
         id: session.user?.id,
       },
     });
-    console.log(user);
   }
   return (
     <html lang="ja">
@@ -45,9 +44,9 @@ export default async function RootLayout({
                     className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] transition hover:border-[#58cc02]/40 hover:bg-white/10"
                     aria-label="プロフィール"
                   >
-                    {user ? (
+                    {user?.image ? (
                       <Image
-                        src={user.image!}
+                        src={user.image}
                         alt="ユーザーアイコン"
                         width={32}
                         height={32}

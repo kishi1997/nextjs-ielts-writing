@@ -1,18 +1,24 @@
 import { auth } from '@/lib/auth';
 
 export default auth((req) => {
-  // ⭐ここでauthを呼び出すと、サーバー側でセッション情報が取得できます。
-  const isLoggedIN = !!req.auth;
+  const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
-  console.log('login or not', isLoggedIN);
-  if (!isLoggedIN && pathname !== 'login') {
-    return Response.redirect(new URL('login', req.nextUrl));
+
+  if (!isLoggedIn && pathname !== '/login') {
+    return Response.redirect(new URL('/login', req.nextUrl));
   }
-  if ((isLoggedIN && pathname === '/') || pathname === '/login') {
+
+  if (isLoggedIn && (pathname === '/' || pathname === '/login')) {
     return Response.redirect(new URL('/dashboard', req.nextUrl));
   }
 });
-// 現状仮のミドルウェア
+
 export const config = {
-  matcher: ['/', '/dashboard', '/dashboard/:path*'],
+  matcher: [
+    '/',
+    '/login',
+    '/dashboard/:path*',
+    '/profile/:path*',
+    '/tasks/:path*',
+  ],
 };

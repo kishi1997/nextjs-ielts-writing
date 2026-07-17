@@ -6,7 +6,6 @@ import { Task } from '@/types/type';
 import { getWordCount } from '@/lib/word-count-utils';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { createEssay } from '@/lib/database/essay';
-import { useUserState } from '@/store/useUserStore';
 import {
   addReviewTaskId,
   getReviewTaskIds,
@@ -35,8 +34,6 @@ export const TaskClient = ({ task }: PageProps) => {
   const [showModelAnswer, setShowModelAnswer] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
 
-  const user = useUserState((state) => state.user);
-
   const reviewTaskIds = useSyncExternalStore(
     subscribeReviewTaskIds,
     getReviewTaskIds,
@@ -55,7 +52,7 @@ export const TaskClient = ({ task }: PageProps) => {
     try {
       setLoading(true);
       setMessage('');
-      await createEssay(answer, taskId, user?.id);
+      await createEssay(answer, taskId);
       setMessage('回答を保存しました。答えと解説を見て振り返れます。');
     } catch (error) {
       setMessage('保存に失敗しました。もう一度試してください。');
