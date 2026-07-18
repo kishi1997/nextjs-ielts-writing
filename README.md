@@ -69,10 +69,10 @@ Cloudflare DashboardのWorkers & Pagesから`ielts-writing-app`にGitHubリポ�
 
 - Production branch: `main`
 - Build command: `pnpm cf:build`
-- Deploy command: `pnpm deploy`
+- Deploy command: `pnpm run deploy`
 - Builds for non-production branches: disabled
 
-`pnpm deploy`は、D1 migrationを適用してからOpenNext Workerをデプロイします。アプリの秘密値・DB・デプロイ履歴はCloudflare Dashboardで一括管理します。無料枠のビルド時間を節約するため、非本番ブランチの自動ビルドは有効にしません。Workers Buildsを設定するときもFreeプランのまま進め、有料プランへのアップグレード確認には同意しないでください。
+`pnpm run deploy`は、D1 migrationを適用してからOpenNext Workerをデプロイします。アプリの秘密値・DB・デプロイ履歴はCloudflare Dashboardで一括管理します。無料枠のビルド時間を節約するため、非本番ブランチの自動ビルドは有効にしません。Workers Buildsを設定するときもFreeプランのまま進め、有料プランへのアップグレード確認には同意しないでください。
 
 ## Google OAuth
 
